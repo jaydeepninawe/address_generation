@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bitcoin Wallet Generator
 
-## Getting Started
+A simple, client-side web app to instantly generate a new Bitcoin private key, public key, and address. Built with **Next.js**, **React**, and [coinkey](https://github.com/cryptocoinjs/coinkey). Your keys never leave your browser.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- One-click wallet generation
+- Displays private key, public key, and Bitcoin address
+- Copy-to-clipboard for all fields
+- Responsive, modern UI (Tailwind CSS)
+- Security warning to protect your private key
+- No backend – everything happens in your browser
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Getting Started
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠 Usage
 
-## Deploy on Vercel
+1. Click the **"Generate New Wallet"** button.
+2. View your **private key**, **public key**, and **Bitcoin address**.
+3. Click the 📋 icon to copy any value.
+4. **Never share your private key! Store it securely.**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ⚠️ Security Notice
+
+- All wallet generation is performed locally in your browser.
+- This tool is for educational/demo use only. **Do not use it for storing large amounts of Bitcoin.**
+- Always back up your private key securely. If you lose it, you lose access to your Bitcoin.
+
+---
+
+## 🏗️ Built With
+
+- [Next.js](https://nextjs.org/)
+- [React](https://react.dev/)
+- [coinkey](https://github.com/cryptocoinjs/coinkey)
+- [Tailwind CSS](https://tailwindcss.com/)
+
+---
+
+## 📄 License
+
+MIT
+
+---
+
+## 🙏 Credits
+
+Based on [QuickNode’s Bitcoin address generation guide](https://www.quicknode.com/guides/other-chains/bitcoin/how-to-generate-a-new-bitcoin-address-in-javascript).
+
+---
+
+**Happy generating! 🚀**
+
+
