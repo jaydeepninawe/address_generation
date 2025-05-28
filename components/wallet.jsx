@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import secrets from "secrets.js-34r7h";
+import secrets from "secrets.js-34r7h"; // SSR-safe
 
 export default function WalletGenerator() {
   const [wallet, setWallet] = useState(null);
@@ -9,6 +9,7 @@ export default function WalletGenerator() {
   const [reconstructedKey, setReconstructedKey] = useState("");
 
   const generateWallet = async () => {
+    // Dynamically import coinkey ONLY in the browser
     const CoinKeyModule = await import("coinkey");
     const CoinKey = CoinKeyModule.default || CoinKeyModule;
     const newWallet = CoinKey.createRandom();
