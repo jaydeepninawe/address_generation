@@ -2,16 +2,15 @@
 import { useState } from "react";
 import secrets from "secrets.js-34r7h";
 
-export default function Wallet() {
+export default function WalletGenerator() {
   const [wallet, setWallet] = useState(null);
   const [shards, setShards] = useState([]);
   const [reconInputs, setReconInputs] = useState(["", "", ""]);
   const [reconstructedKey, setReconstructedKey] = useState("");
 
-  // Note: coinkey is imported dynamically inside the handler
   const generateWallet = async () => {
     const CoinKeyModule = await import("coinkey");
-    const CoinKey = CoinKeyModule.default || CoinKeyModule; // support both import styles
+    const CoinKey = CoinKeyModule.default || CoinKeyModule;
     const newWallet = CoinKey.createRandom();
     const privateKeyHex = newWallet.privateKey.toString("hex");
     const shares = secrets.share(privateKeyHex, 5, 3);
@@ -52,19 +51,17 @@ export default function Wallet() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4 font-[family-name:var(--font-geist-sans)]">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-10 px-4">
+      <div className="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full">
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
           Bitcoin Wallet Generator
         </h1>
-
         <button
           onClick={generateWallet}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors mb-8"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition mb-8"
         >
           Generate New Wallet
         </button>
-
         {wallet && (
           <div className="space-y-4">
             <div className="bg-gray-50 p-4 rounded-lg">
@@ -83,7 +80,6 @@ export default function Wallet() {
                 </button>
               </div>
             </div>
-
             <div className="bg-gray-50 p-4 rounded-lg">
               <label className="text-sm font-medium text-gray-500 block mb-1">
                 Public Key
@@ -100,10 +96,9 @@ export default function Wallet() {
                 </button>
               </div>
             </div>
-
             <div className="bg-gray-50 p-4 rounded-lg">
               <label className="text-sm font-medium text-gray-500 block mb-1">
-                Bitcoin address
+                Bitcoin Address
               </label>
               <div className="flex items-center justify-between">
                 <span className="font-mono text-green-600 break-all pr-2">
@@ -117,8 +112,6 @@ export default function Wallet() {
                 </button>
               </div>
             </div>
-
-            {/* Render the shards */}
             <div className="bg-gray-50 p-4 rounded-lg">
               <label className="text-sm font-medium text-gray-500 block mb-1">
                 Private Key Shards (5 shares, threshold 3)
@@ -139,8 +132,6 @@ export default function Wallet() {
                 ))}
               </ol>
             </div>
-
-            {/* Reconstruction form */}
             <div className="bg-gray-50 p-4 rounded-lg">
               <label className="text-sm font-medium text-gray-500 block mb-2">
                 Reconstruct Private Key (enter any 3 shards)
@@ -159,14 +150,18 @@ export default function Wallet() {
               </div>
               <button
                 onClick={reconstructPrivateKey}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition"
               >
                 Reconstruct Key
               </button>
               {reconstructedKey && (
                 <div className="mt-2">
-                  <span className="text-gray-500 text-sm">Reconstructed Private Key:</span>
-                  <div className="font-mono text-red-600 break-all">{reconstructedKey}</div>
+                  <span className="text-gray-500 text-sm">
+                    Reconstructed Private Key:
+                  </span>
+                  <div className="font-mono text-red-600 break-all">
+                    {reconstructedKey}
+                  </div>
                 </div>
               )}
             </div>

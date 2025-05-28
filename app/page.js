@@ -1,9 +1,9 @@
-import Wallet from "../components/wallet"
+import WalletClientWrapper from "../components/clientWrapper";
 
 export default function HomePage() {
   return (
     <main>
-      <Wallet />
+      <WalletClientWrapper />
     </main>
   );
 }
