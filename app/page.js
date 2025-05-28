@@ -1,30 +1,34 @@
 "use client";
-import { useState } from 'react';
-import CoinKey from 'coinkey';
-import secrets from 'secrets.js-34r7h';
+import { useState } from "react";
+import secrets from "secrets.js-34r7h";
 
 export default function Home() {
   const [wallet, setWallet] = useState(null);
   const [shards, setShards] = useState([]);
-  const [reconInputs, setReconInputs] = useState(['', '', '']);
-  const [reconstructedKey, setReconstructedKey] = useState('');
+  const [reconInputs, setReconInputs] = useState(["", "", ""]);
+  const [reconstructedKey, setReconstructedKey] = useState("");
 
-  const generateWallet = () => {
+  // Note: coinkey is imported dynamically inside the handler
+  const generateWallet = async () => {
+    const CoinKeyModule = await import("coinkey");
+    const CoinKey = CoinKeyModule.default || CoinKeyModule; // support both import styles
     const newWallet = CoinKey.createRandom();
-    const privateKeyHex = newWallet.privateKey.toString('hex');
+    const privateKeyHex = newWallet.privateKey.toString("hex");
     const shares = secrets.share(privateKeyHex, 5, 3);
     setWallet({
       privateKey: privateKeyHex,
-      publicKey: newWallet.publicKey.toString('hex'),
-      address: newWallet.publicAddress
+      publicKey: newWallet.publicKey.toString("hex"),
+      address: newWallet.publicAddress,
     });
     setShards(shares);
-    setReconstructedKey('');
-    setReconInputs(['', '', '']);
+    setReconstructedKey("");
+    setReconInputs(["", "", ""]);
   };
 
   const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
+    if (typeof window !== "undefined" && navigator?.clipboard) {
+      navigator.clipboard.writeText(text);
+    }
   };
 
   const handleReconInputChange = (idx, value) => {
@@ -35,16 +39,15 @@ export default function Home() {
 
   const reconstructPrivateKey = () => {
     try {
-      // Only use non-empty inputs
       const usedShards = reconInputs.filter(Boolean);
       if (usedShards.length < 3) {
-        setReconstructedKey('Please enter at least 3 shards.');
+        setReconstructedKey("Please enter at least 3 shards.");
         return;
       }
       const reconstructed = secrets.combine(usedShards);
       setReconstructedKey(reconstructed);
     } catch (err) {
-      setReconstructedKey('Invalid shards or combination.');
+      setReconstructedKey("Invalid shards or combination.");
     }
   };
 
@@ -54,8 +57,8 @@ export default function Home() {
         <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
           Bitcoin Wallet Generator
         </h1>
-        
-        <button 
+
+        <button
           onClick={generateWallet}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors mb-8"
         >
@@ -72,7 +75,7 @@ export default function Home() {
                 <span className="font-mono text-red-600 break-all pr-2">
                   {wallet.privateKey}
                 </span>
-                <button 
+                <button
                   onClick={() => copyToClipboard(wallet.privateKey)}
                   className="text-gray-400 hover:text-gray-600 ml-2"
                 >
@@ -89,7 +92,7 @@ export default function Home() {
                 <span className="font-mono text-blue-600 break-all pr-2">
                   {wallet.publicKey}
                 </span>
-                <button 
+                <button
                   onClick={() => copyToClipboard(wallet.publicKey)}
                   className="text-gray-400 hover:text-gray-600 ml-2"
                 >
@@ -106,7 +109,7 @@ export default function Home() {
                 <span className="font-mono text-green-600 break-all pr-2">
                   {wallet.address}
                 </span>
-                <button 
+                <button
                   onClick={() => copyToClipboard(wallet.address)}
                   className="text-gray-400 hover:text-gray-600 ml-2"
                 >
@@ -123,7 +126,9 @@ export default function Home() {
               <ol className="list-decimal pl-4 space-y-2">
                 {shards.map((shard, idx) => (
                   <li key={idx} className="flex items-center justify-between">
-                    <span className="font-mono text-purple-600 break-all pr-2">{shard}</span>
+                    <span className="font-mono text-purple-600 break-all pr-2">
+                      {shard}
+                    </span>
                     <button
                       onClick={() => copyToClipboard(shard)}
                       className="text-gray-400 hover:text-gray-600 ml-2"
@@ -146,7 +151,7 @@ export default function Home() {
                     key={idx}
                     type="text"
                     value={reconInputs[idx]}
-                    onChange={e => handleReconInputChange(idx, e.target.value)}
+                    onChange={(e) => handleReconInputChange(idx, e.target.value)}
                     className="w-full font-mono border border-gray-300 rounded px-2 py-1"
                     placeholder={`Shard #${idx + 1}`}
                   />
