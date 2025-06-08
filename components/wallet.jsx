@@ -144,7 +144,7 @@ export default function WalletGenerator() {
                     type="text"
                     value={reconInputs[idx]}
                     onChange={(e) => handleReconInputChange(idx, e.target.value)}
-                    className="w-full font-mono border border-gray-300 rounded px-2 py-1"
+                    className="w-full font-mono border text-black border-gray-300 rounded px-2 py-1"
                     placeholder={`Shard #${idx + 1}`}
                   />
                 ))}
